@@ -30,3 +30,18 @@ keymap("n", "<C-l>", "<C-w>l", { desc = "Déplace le curseur dans la fenêtre dr
 -- Navigation entre les buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
+
+keymap("n", "]t", function()
+  require("todo-comments").jump_next()
+end, { desc = "Next todo comment" })
+
+keymap("n", "[t", function()
+  require("todo-comments").jump_prev()
+end, { desc = "Previous todo comment" })
+
+keymap("n", "<leader>oi", function()
+  vim.lsp.buf.execute_command({
+    command = "_typescript.organizeImports",
+    arguments = { vim.api.nvim_buf_get_name(0) },
+  })
+end, { desc = "Organize Imports (TypeScript)" })

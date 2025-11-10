@@ -58,6 +58,11 @@ return {
       "<cmd>Telescope grep_string<cr>",
       { desc = "Recherche de la chaîne de caractères sous le curseur" }
     )
+    keymap.set(
+      "n",
+      "<leader>fd",
+      "<cmd>Telescope diagnostics<cr>",
+      { desc = "Recherche de la chaîne de caractères sous le curseur" }
+    )
   end,
 }
-

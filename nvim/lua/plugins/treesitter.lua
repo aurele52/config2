@@ -19,9 +19,9 @@ return {
         "dockerfile",
         "gitignore",
         "html",
-        "javascript",
         "json",
         "lua",
+        "javascript", "typescript", "tsx",
         "markdown",
         "markdown_inline",
         "python",
@@ -44,4 +44,31 @@ return {
       },
     })
   end,
-}
+} -- lua/plugins/treesitter.lua
+-- return {
+--   {
+--     event = { "BufReadPost", "BufNewFile" },
+--     dependencies = {
+--       "nvim-treesitter/nvim-treesitter-textobjects",
+--       "windwp/nvim-ts-autotag",
+--       "JoosepAlviste/nvim-ts-context-commentstring",
+--     },
+--     opts = {
+--       ensure_installed = {
+--         "lua", "vim", "vimdoc",
+--         "javascript", "typescript", "tsx",
+--         "html", "css", "json", "markdown", "markdown_inline",
+--         "query"
+--       },
+--       highlight = {
+--         enable = true,
+--         additional_vim_regex_highlighting = false,
+--       },
+--       indent = { enable = true },
+--       autotag = { enable = true },
+--     },
+--     config = function(_, opts)
+--       require("nvim-treesitter.configs").setup(opts)
+--     end,
+--   },
+-- }

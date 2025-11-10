@@ -55,10 +55,10 @@ return {
       sources = cmp.config.sources({
         { name = "nvim_lsp" }, -- lsp
         { name = "nvim_lua" },
-        { name = "luasnip" }, -- snippets
-        { name = "buffer" }, -- texte du buffer courant
-        { name = "path" }, -- chemins dy système de fichier
-        { name = "emoji" }, -- emojis
+        { name = "luasnip" },  -- snippets
+        { name = "buffer" },   -- texte du buffer courant
+        { name = "path" },     -- chemins dy système de fichier
+        { name = "emoji" },    -- emojis
       }),
 
       formatting = {

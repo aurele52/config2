@@ -30,8 +30,10 @@ return {
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier", -- prettier formatter
-        "eslint_d", -- eslint formater
+        "prettier",                   -- prettier formatter
+        "eslint_d",                   -- eslint formater
+        "typescript-language-server", -- <-- nécessaire pour ts_ls
+        "eslint",
       },
     })
 
@@ -50,6 +52,8 @@ return {
         "rust_analyzer",
         "svelte",
         "yamlls",
+        "vtsls",
+        "eslint",
       },
       handlers = {
         -- Fonction appelée au chargement de chaque LSP de la liste ensure_installed
@@ -71,6 +75,66 @@ return {
         -- ils correspondent aux entrées du ensure_installed
 
         -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#pylsp
+        --
+        vtsls = function()
+          require("lspconfig").vtsls.setup({
+            -- couvre js/jsx/ts/tsx par défaut, mais on peut être explicite :
+            filetypes = {
+              "javascript", "javascriptreact", "javascript.jsx",
+              "typescript", "typescriptreact", "typescript.tsx",
+            },
+            settings = {
+              -- réglages spécifiques vtsls (optionnels)
+              vtsls = {
+                tsserver = {
+                  globalPlugins = {}, -- tu peux brancher des plugins TS ici si besoin
+                },
+              },
+              -- préférences TypeScript
+              typescript = {
+                updateImportsOnFileMove = { enabled = "always" },
+                suggest = { completeFunctionCalls = true },
+                inlayHints = {
+                  enumMemberValues = true,
+                  functionLikeReturnTypes = true,
+                  parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
+                  parameterTypes = true,
+                  propertyDeclarationTypes = true,
+                  variableTypes = true,
+                },
+                preferences = {
+                  includeCompletionsWithSnippetText = true,
+                  quoteStyle = "auto",
+                },
+              },
+              -- mêmes préférences côté JavaScript
+              javascript = {
+                updateImportsOnFileMove = { enabled = "always" },
+                suggest = { completeFunctionCalls = true },
+                inlayHints = {
+                  enumMemberValues = true,
+                  functionLikeReturnTypes = true,
+                  parameterNames = { enabled = "all", suppressWhenArgumentMatchesName = false },
+                  parameterTypes = true,
+                  propertyDeclarationTypes = true,
+                  variableTypes = true,
+                },
+                preferences = {
+                  includeCompletionsWithSnippetText = true,
+                  quoteStyle = "auto",
+                },
+              },
+            },
+          })
+        end,
+
+        -- ESLint LSP (diagnostics + code actions “Fix all”)
+        eslint = function()
+          require("lspconfig").eslint.setup({
+            filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+            settings = { workingDirectory = { mode = "auto" } },
+          })
+        end,
         pylsp = function()
           lspconfig.pylsp.setup({
             settings = {

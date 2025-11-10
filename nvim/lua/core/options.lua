@@ -1,4 +1,5 @@
 local opt = vim.opt -- raccourci pour un peu plus de concision
+local fn  = vim.fn
 
 -- numéros de ligne
 opt.relativenumber = true -- affichage des numéros de ligne relatives à la position actuelle du curseur
@@ -45,3 +46,7 @@ opt.iskeyword:append("-") -- on traite les mots avec des - comme un seul mot
 opt.list = true
 opt.listchars:append({ nbsp = "␣", trail = "•", precedes = "«", extends = "»", tab = "> " })
 
+opt.undofile = true
+opt.undolevels = 10000
+opt.undoreload = 10000
+opt.undodir = fn.stdpath("data") .. "/undo"  -- ~/.local/share/nvim/undo
