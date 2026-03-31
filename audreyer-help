@@ -1,0 +1,106 @@
+change onglet = ctrl-pageup / ctrl-pagedown
+
+telescope:
+en insert: ctrl + touche
+en normal:
+v pour v split
+
+<leader>fg = find in file
+<leader>ff = find file name
+<leader>fd = find in LSP diagnostique
+
+
+harpoon : 
+<leader>A : add in harpoon
+
+undor tree:
+<leader>u
+
+todo:
+]t jump next
+et TODO: pour activer dans un commentaire
+
+
+
+to install
+
+important: 
+  nvim-ts-autotag → ferme automatiquement les balises HTML/JSX.
+  diffview.nvim
+
+
+peut etre important:
+vim-fugitive → interface Git en mode commande (si tu veux un contrôle Git complet depuis Neovim).
+
+
+a voir
+  nvim-treesitter-textobjects → meilleure navigation et sélection par syntaxe.
+  nvim-ts-context-commentstring → commentaires contextuels (utile avec React, JSX, etc.).
+  project.nvim
+
+
+alpha-nvim ou dashboard-nvim → écran d’accueil stylé avec raccourcis et projets récents.
+
+mini.nvim (modules) → pack de petits plugins Lua très légers (par ex. mini.cursorword, mini.animate).
+
+scrollbar.nvim → mini barre de défilement avec infos Git/LS
+
+oil.nvim → naviguer dans le système de fichiers directement dans un buffer.
+
+telescope-ui-select.nvim → améliore les menus Telescope.
+
+leap.nvim ou flash.nvim → sauts rapides dans le texte (remplaçants modernes de hop.nvim /
+
+🪄 Bonus — via plugin TypeScript dédié
+
+Si tu utilises (ou veux utiliser) un plugin spécialisé :
+
+Option A — typescript.nvim
+
+Avantage : il gère aussi Rename file, Add missing imports, etc.
+Tu obtiens des commandes :
+:TypescriptOrganizeImports, :TypescriptRenameFile, :TypescriptAddMissingImports, etc.
+
+Option B — typescript-tools.nvim
+
+Une alternative plus récente et plus performante :
+
+🧼 Option bonus — Format + Organize en une touche
+
+Tu peux combiner les deux pour un équivalent complet à VS Code Shift+Alt+O :
+
+
+
+
+
+
+
+
+
+# 1) Partir d’un develop à jour
+git checkout develop
+git pull --ff-only origin develop
+
+# 2) Créer ta branche feature depuis develop à jour
+git switch -c feature/feature1   # équiv. à: git checkout -b feature/feature1
+
+# 3) Travailler, committer
+# ... changements de code ...
+git add .
+git commit -m "feat: complete feature1 (scope if needed)"
+
+# 4) Publier la branche (premier push)
+git push -u origin feature/feature1
+
+# 5) Avant d’ouvrir la MR (et à chaque fois que develop bouge), rebase sur develop
+git fetch origin
+git rebase origin/develop    # ⚠️ résoudre les conflits, puis `git rebase --continue`
+
+# 6) Pousser après rebase (historique réécrit)
+git push --force-with-lease
+
+# 7) Ouvrir la Merge Request vers develop
+# (target branch = develop, description, check CI)
+
+
+
