@@ -1,74 +1,87 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  config = function()
-    local treesitter = require("nvim-treesitter.configs")
+	{
+		"nvim-treesitter/nvim-treesitter",
+		branch = "main",
+		lazy = false,
+		build = ":TSUpdate",
+		config = function()
+			local ts = require("nvim-treesitter")
 
-    -- configuration de treesitter
-    treesitter.setup({
-      -- activation de la coloration syntaxique
-      highlight = {
-        enable = true,
-      },
-      -- activation de l'indentation améliorée
-      indent = { enable = true },
+			ts.setup({
+				install_dir = vim.fn.stdpath("data") .. "/site",
+			})
 
-      -- langages installés et configurés
-      ensure_installed = {
-        "bash",
-        "dockerfile",
-        "gitignore",
-        "html",
-        "json",
-        "lua",
-        "javascript", "typescript", "tsx",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "rst",
-        "rust",
-        "typescript",
-        "vim",
-        "yaml",
-      },
-      -- lorse de l'appui sur <Ctrl-space> sélectionne le bloc
-      -- courant spécifique au langage de programmation
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
-        },
-      },
-    })
-  end,
-} -- lua/plugins/treesitter.lua
--- return {
---   {
---     event = { "BufReadPost", "BufNewFile" },
---     dependencies = {
---       "nvim-treesitter/nvim-treesitter-textobjects",
---       "windwp/nvim-ts-autotag",
---       "JoosepAlviste/nvim-ts-context-commentstring",
---     },
---     opts = {
---       ensure_installed = {
---         "lua", "vim", "vimdoc",
---         "javascript", "typescript", "tsx",
---         "html", "css", "json", "markdown", "markdown_inline",
---         "query"
---       },
---       highlight = {
---         enable = true,
---         additional_vim_regex_highlighting = false,
---       },
---       indent = { enable = true },
---       autotag = { enable = true },
---     },
---     config = function(_, opts)
---       require("nvim-treesitter.configs").setup(opts)
---     end,
---   },
--- }
+			ts.install({
+				"bash",
+				"comment",
+				"css",
+				"dockerfile",
+				"gitignore",
+				"html",
+				"javascript",
+				"json",
+				"lua",
+				"markdown",
+				"markdown_inline",
+				"python",
+				"query",
+				"regex",
+				"rst",
+				"rust",
+				"svelte",
+				"toml",
+				"tsx",
+				"typescript",
+				"vim",
+				"vimdoc",
+				"yaml",
+			})
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = {
+					"bash",
+					"css",
+					"dockerfile",
+					"gitignore",
+					"html",
+					"javascript",
+					"json",
+					"lua",
+					"markdown",
+					"python",
+					"rst",
+					"rust",
+					"svelte",
+					"toml",
+					"typescript",
+					"tsx",
+					"vim",
+					"yaml",
+				},
+				callback = function(args)
+					local ok = pcall(vim.treesitter.start, args.buf)
+					if not ok then
+						return
+					end
+
+					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
+		end,
+	},
+
+	{
+		"windwp/nvim-ts-autotag",
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			enable_close = true,
+			enable_rename = true,
+			enable_close_on_slash = false,
+		},
+		config = function(_, opts)
+			require("nvim-ts-autotag").setup({
+				opts = opts,
+			})
+		end,
+	},
+}
